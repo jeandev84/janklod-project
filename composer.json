@@ -1,0 +1,17 @@
+{
+    "name": "jeandev/janklod-project",
+    "description": "Building framework using pattern mvc",
+    "authors": [
+        {
+            "name": "Yao Jean-Claude",
+            "email": "jeandev84@yahoo.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Jan\\": "src/",
+            "App\\": "app/"
+        }
+    },
+    "require": {}
+}
