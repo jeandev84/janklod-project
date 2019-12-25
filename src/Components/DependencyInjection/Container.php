@@ -2,26 +2,28 @@
 namespace Jan\Components\DependencyInjection;
 
 
-use Jan\Contracts\Container\ContainerInterface;
+use Closure;
 
 
 /**
  * Class Container
  * @package Jan\Components\DependencyInjection
 */
-class Container implements ContainerInterface
+class Container
 {
+
+     /** @var array  */
+     protected $shared = [];
+
+
      /** @var array  */
      protected $instances = [];
 
-     /** @var array  */
-     protected $services = [];
+
 
      /** @var array  */
-     protected $factories = [];
+     protected $bindings = [];
 
-     /** @var array  */
-     protected $singletons = [];
 
 
      /** @var array  */
@@ -34,51 +36,52 @@ class Container implements ContainerInterface
      public function __construct() {}
 
 
+    /**
+     * @param $abstract
+     * @param null $concrete
+     * @param bool $shared
+     */
+     public function bind($abstract, $concrete = null, $shared = false)
+     {
+         if(is_null($concrete))
+         {
+             $concrete = $abstract;
+         }
+
+         // if(! $this->isClosure($concrete)) { }
+
+         $this->bindings[$abstract] = compact('concrete', 'shared');
+     }
+
+
      /**
-     * @param $key
+      * @param $concrete
+      * @return bool
+     */
+     public function isClosure($concrete)
+     {
+         return $concrete instanceof Closure;
+     }
+
+
+    /**
+     * @param $abstract
+     * @return mixed
+     * @throws \ReflectionException
+     */
+     public function factory($abstract)
+     {
+         return $this->make($abstract);
+     }
+
+
+    /**
+     * @param $abstract
      * @param $concrete
      */
-     public function set($key, $concrete)
+     public function singleton($abstract, $concrete = null)
      {
-         $this->services[$key] = $concrete;
-     }
-
-     /**
-      * @param array $aliases
-      * @return Container
-     */
-     public function setAliases(array $aliases)
-     {
-         $this->aliases = $aliases;
-         return $this;
-     }
-
-     /**
-      * @param string $key
-      * @return mixed|null
-     */
-     public function getAlias(string $key)
-     {
-         return $this->aliases[$key] ?? null;
-     }
-
-     /**
-      * @param $key
-      * @param object $concrete
-     */
-     public function factory($key, object $concrete)
-     {
-         $this->factories[$key] = $concrete;
-     }
-
-
-     /**
-      * @param $key
-      * @param $concrete
-     */
-     public function singleton($key, $concrete)
-     {
-         $this->singletons[$key] = $concrete;
+          $this->bind($abstract, $concrete, true);
      }
 
 
@@ -86,163 +89,30 @@ class Container implements ContainerInterface
      * @param $abstract
      * @param array $parameters
      * @return mixed
-     * @throws \ReflectionException
      */
      public function make($abstract, $parameters = [])
      {
-         return $this->resolve($abstract, $parameters);
-     }
-
-     /**
-      * @param $key
-      * @param null $concrete
-     */
-     public function bind($key, $concrete = null)
-     {
-          if(is_null($concrete))
-          {
-              $concrete = $key;
-          }
-          $this->set($key, $concrete);
-     }
-
-
-     /**
-      * @param $key
-      * @return bool
-     */
-     public function bound($key)
-     {
-         return isset(
-             $this->instances[$key],
-             $this->factories[$key],
-             $this->singletons[$key],
-             $this->services[$key]
-         );
+         // return $this->resolve($abstract, $parameters);
      }
 
 
     /**
-     * @param $key
-     * @param array $parameters
+     * @param $abstract
      * @return mixed
      * @throws \ReflectionException
      */
-     public function get($key, $parameters = [])
+     public function get($abstract)
      {
-         return $this->resolve($key, $parameters);
+         return $this->resolve($abstract);
      }
 
 
      /**
-      * @param $key
-      * @return bool
+     * @param $abstract
+     * @return mixed
      */
-     public function isInstantiated($key)
+     public function resolve($abstract)
      {
-         return isset($this->instances[$key]);
+
      }
-
-     /**
-      * @param $key
-      * @param array $parameters
-      * @return mixed
-      * @throws \ReflectionException
-     */
-     public function resolve($key, $parameters = [])
-     {
-          // get services
-          if(isset($this->services[$key]))
-          {
-              return $this->services[$key];
-          }
-
-          // factories
-          if(isset($this->factories[$key]))
-          {
-              return $this->factories[$key];
-          }
-
-          // singletons
-          if(! isset($this->instances[$key]))
-          {
-               if(isset($this->singletons[$key]))
-               {
-                   $this->instances[$key] = $this->singletons[$key];
-               }
-          }
-
-          if(! $this->bound($key))
-          {
-               $reflection = new \ReflectionClass($key);
-          }
-
-          return $this->instances[$key] ?? null;
-     }
-
-
-    /**
-     * @inheritDoc
-    */
-    public function has($key)
-    {
-        return $this->bound($key);
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function remove($key)
-    {
-        unset($this->instances[$key]);
-    }
-
-    /**
-     * @inheritDoc
-    */
-    public function flush()
-    {
-        $this->instances = [];
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function offsetExists($offset)
-    {
-        // TODO: Implement offsetExists() method.
-    }
-
-
-    /**
-     * @inheritDoc
-    */
-    public function offsetGet($offset)
-    {
-        // TODO: Implement offsetGet() method.
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function offsetSet($offset, $value)
-    {
-        // TODO: Implement offsetSet() method.
-    }
-
-    /**
-     * @inheritDoc
-    */
-    public function offsetUnset($offset)
-    {
-        // TODO: Implement offsetUnset() method.
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function count()
-    {
-        // TODO: Implement count() method.
-    }
 }
