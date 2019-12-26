@@ -2,7 +2,7 @@
 namespace Jan\Components\DependencyInjection\Exceptions;
 
 /**
- * Class NotInstanciableException
+ * Class NotInstantiableException
  * @package Jan\Components\DependencyInjection\Exceptions
 */
-class NotInstanciableException extends \Exception {}
+class NotInstantiableException extends \Exception {}

@@ -30,7 +30,18 @@ class Foo
      * @param CommandInterface $command
      * @param array $config
    */
+   /*
    public function __construct(CommandInterface $command, $config = [])
+   {
+   }
+   */
+
+   /**
+     * Foo constructor.
+     * @param Bar $bar
+     * @param array $config
+   */
+   public function __construct(Bar $bar, $config = [])
    {
    }
 }
