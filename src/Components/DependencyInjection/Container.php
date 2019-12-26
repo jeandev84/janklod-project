@@ -13,5 +13,27 @@ use Jan\Components\DependencyInjection\Exceptions\NotInstanciableException;
 class Container
 {
 
+    /** @var array  */
+    protected $instances = [];
 
+
+    /** @var array  */
+    protected $bindings = [];
+
+
+    /**
+     * Container constructor.
+    */
+    public function __construct() {}
+
+
+    /**
+     * @param $abstract
+     * @param null $concrete
+     * @param bool $shared
+    */
+    public function bindings($abstract, $concrete = null, $shared = false)
+    {
+
+    }
 }
