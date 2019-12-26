@@ -1,114 +1,35 @@
-<?php
 
-Introduction
-We have introduced Introduction to PHP Reflection API, clarifying what is Reflection API, and what is the different purposes of it, one of these -and most common- is using it with the DI Container, here is the article agenda:
-What is Dependency Injection.
-Different Ways of Injecting Objects (and Why?).
-What is DI Container.
-ReflectionClass & DI Container.
-Conclusion.
-References.
-1. What is Dependency Injection
-dependency injection is a technique whereby one object supplies the dependencies of another objectWhat is Dependency Injection — wikipedia
-It is a very simple concept which you can inject an object to another object, check the following example:
-class Profile {
-    public function deactivateProfile(Setting $setting)
-    {
-        $setting->isActive = false;
-    }
+if(isset($this->bindings[$abstract]['concrete']))
+
+if($this->isClosure($this->getConcrete($abstract)))
+{
+    return call_user_func_array($this->getConcrete($abstract), [$this, $parameters]);
 }
-Because we need to use the $setting object inside the function, we inject/pass it as a parameter.
-2. Different Ways of Injecting Objects (and Why?)
-There are many ways to inject objects, here are a couple of most known:
-Constructor Injection: it is how you inject an object through the class constructor:
-class Profile {
-    private $setting;
-    public function __construct(Setting $setting)
-    {
-        $this->setting = $setting;
-    }
+
+$reflectedClass = new \ReflectionClass($abstract);
+
+
+if(! $reflectedClass->isInstantiable())
+{
+     throw $this->createNotInstantiableException(
+         sprintf('Class (%s) is not instantiable!', $reflectedClass->getName())
+     );
 }
-// to instantiate Profile, you have to instantiate Setting first
-$setting = new Setting;
-$profile = new Profile($setting);
-Why?. This is the most common case, and it is useful to create a loosely coupled components. It is also useful while writing tests for your application.
-Setter Injection: where you inject the object to your class through a setter function:
-class Profile {
-    private $setting;
-    public function setSetting(Setting $setting)
-    {
-        $this->setting = $setting;
-    }
+
+$constructor = $reflectedClass->getConstructor();
+
+if(is_null($constructor))
+{
+     return $reflectedClass->newInstance();
 }
-// to instantiate Profile, you have the option to inject Setting object
-$setting = new Setting;
-$profile = new Profile();
-$profile->setSetting($setting);
-Why?. This way gives you the option to inject whenever you need to use it inside the Profile class.
-3. What is DI Container
-Dependency Injection Container is the way to manage injecting and reading objects and third party libraries in your application.
-    PHP-FIG PSR-11 is telling you how to have a container in you application:
-<?php
-interface ContainerInterface {
-    public function get($id);
-    public function has($id);
+
+$dependencies = (array) $parameters;
+
+if(empty($parameters))
+{
+     $dependencies = $this->getDependencies(
+         $this->getMethodParameters($constructor)
+     );
 }
-It is a very simple implementation for the ContainerInterface which has two main functions get() and has():
-get(): get the object from the container.
-    has() : check if we have the object in the container.
-    Note: the aim of PHP-FIG, is to put a standards for different implementations and introduce them to the PHP community, check more here, and we will discuss it later in a different topic.
-    4. ReflectionClass & DI Container
-Most of frameworks are using the DI Container not for just what you have seen in the preceding section, but with also resolving dependencies (Autowiring).
-    But what do you mean by “resolving” dependencies?, it means the ability of your application to automatically handle the dependencies for a specific class instead of doing it manually.
-    Ok, let us make it more clear. Check the following example:
-class Profile {
-    protected $setting;
-    public function __construct(Setting $setting)
-    {
-        $this->setting = $setting;
-    }
-}
-Here is the way we are instantiate Profile class:
-$setting = new Setting;
-$profile = new Profile($setting);
-So, in order to instantiate Profile, you have to instantiate Setting first, and this how manually we are resolving dependencies for Profile class before instantiation.
-We can do this in a neat way, here is a very simple example from gist.github.com link for a Container class that is resolving dependencies for your application automatically:
 
-        The Container class is registering different classes via set() function:
-$container = new Container();
-// let our application know that we are going to use the following
-// classes, and this is optional, because if you didn't do it, it
-// will be registered via the get() function
-$container->set('Profile');
-And whenever you want to instantiate Profile class, you can easily do the following:
-$profile = $container->get('Profile');
-get() function is going through resolve() function, which is checking if the Profile class has any dependencies via its __construct() so it will resolve them recursively (means if Setting class has dependencies, they will be resolved as well), otherwise, it will instantiate Profile class direct.
-ReflectionClass and ReflectionParameter are mainly used in our Container class:
-$reflector = new ReflectionClass($concrete);
-// check if class is instantiable
-$reflector->isInstantiable();
-// get class constructor
-$reflector->getConstructor();
-
-// get new instance from class
-$reflector->newInstance();
-
-// get new instance with dependencies resolved
-$reflector->newInstanceArgs($dependencies);
-
-// get constructor params
-$constructor->getParameters();
-
-// get the type hinted class
-$params->getClass();
-
-// check if default value for a parameter is available
-$parameter->isDefaultValueAvailable();
-
-
-// get default value of parameter
-$parameter->getDefaultValue();
-
-/*
-5. Conclusion
-We discussed one of Reflection API’s main usages and the main function of DI Container, which is Autowiring and how we used the Reflection API effectively in it clarifying it with a simple implementation.
+return $reflectedClass->newInstanceArgs($dependencies);

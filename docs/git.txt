@@ -3,3 +3,242 @@ git branch -d name-of-local-branch
 
 # Delete remote branch
 git push origin --delete name-of-remote-branch
+
+==========================================================================
+
+jeandev@jeandev-Lenovo-G580:/var/www/janklod-project$ git status
+На ветке di_container
+Изменения, которые будут включены в коммит:
+  (используйте «git reset HEAD <файл>…», чтобы убрать из индекса)
+
+        новый файл:    src/Components/FileSystem/File.php
+        новый файл:    src/Contracts/FileSystem/FileInterface.php
+        новый файл:    src/Contracts/FileSystem/FileSystemInterface.php
+        новый файл:    src/Foundation/Application.php
+
+Изменения, которые не в индексе для коммита:
+  (используйте «git add <файл>…», чтобы добавить файл в индекс)
+  (используйте «git checkout -- <файл>…», чтобы отменить изменения
+   в рабочем каталоге)
+
+        изменено:      public/index.php
+        изменено:      src/Components/DependencyInjection/Container.php
+        изменено:      src/Components/FileSystem/File.php
+        изменено:      src/Contracts/Container/ContainerInterface.php
+        изменено:      src/Contracts/FileSystem/FileInterface.php
+        изменено:      src/Contracts/FileSystem/FileSystemInterface.php
+        изменено:      src/Foundation/Application.php
+
+jeandev@jeandev-Lenovo-G580:/var/www/janklod-project$ git stash
+Рабочий каталог и состояние индекса сохранены WIP on di_container: 1773bc5 Initialize project
+jeandev@jeandev-Lenovo-G580:/var/www/janklod-project$ git status
+На ветке di_container
+нечего коммитить, нет изменений в рабочем каталоге
+jeandev@jeandev-Lenovo-G580:/var/www/janklod-project$ git checkout -b filesystem
+Переключено на новую ветку «filesystem»
+jeandev@jeandev-Lenovo-G580:/var/www/janklod-project$ git stash apply
+На ветке filesystem
+Изменения, которые будут включены в коммит:
+  (используйте «git reset HEAD <файл>…», чтобы убрать из индекса)
+
+        новый файл:    src/Components/FileSystem/File.php
+        новый файл:    src/Contracts/FileSystem/FileInterface.php
+        новый файл:    src/Contracts/FileSystem/FileSystemInterface.php
+        новый файл:    src/Foundation/Application.php
+
+Изменения, которые не в индексе для коммита:
+  (используйте «git add <файл>…», чтобы добавить файл в индекс)
+  (используйте «git checkout -- <файл>…», чтобы отменить изменения
+   в рабочем каталоге)
+
+        изменено:      public/index.php
+        изменено:      src/Components/DependencyInjection/Container.php
+        изменено:      src/Contracts/Container/ContainerInterface.php
+
+jeandev@jeandev-Lenovo-G580:/var/www/janklod-project$ git status
+На ветке filesystem
+Изменения, которые будут включены в коммит:
+  (используйте «git reset HEAD <файл>…», чтобы убрать из индекса)
+
+        новый файл:    src/Foundation/Application.php
+        новый файл:    waited/Components/FileSystem/File.php
+        новый файл:    waited/Contracts/FileSystem/FileInterface.php
+        новый файл:    waited/Contracts/FileSystem/FileSystemInterface.php
+
+Изменения, которые не в индексе для коммита:
+  (используйте «git add <файл>…», чтобы добавить файл в индекс)
+  (используйте «git checkout -- <файл>…», чтобы отменить изменения
+   в рабочем каталоге)
+
+        изменено:      .gitignore
+        изменено:      public/index.php
+        изменено:      src/Components/DependencyInjection/Container.php
+        изменено:      src/Contracts/Container/ContainerInterface.php
+
+jeandev@jeandev-Lenovo-G580:/var/www/janklod-project$ git status
+На ветке di_container
+Изменения, которые будут включены в коммит:
+  (используйте «git reset HEAD <файл>…», чтобы убрать из индекса)
+
+        новый файл:    src/Foundation/Application.php
+        новый файл:    waited/Components/FileSystem/File.php
+        новый файл:    waited/Contracts/FileSystem/FileInterface.php
+        новый файл:    waited/Contracts/FileSystem/FileSystemInterface.php
+
+Изменения, которые не в индексе для коммита:
+  (используйте «git add <файл>…», чтобы добавить файл в индекс)
+  (используйте «git checkout -- <файл>…», чтобы отменить изменения
+   в рабочем каталоге)
+
+        изменено:      .gitignore
+        изменено:      public/index.php
+        изменено:      src/Components/DependencyInjection/Container.php
+        изменено:      src/Contracts/Container/ContainerInterface.php
+
+Неотслеживаемые файлы:
+  (используйте «git add <файл>…», чтобы добавить в то, что будет включено в коммит)
+
+        waited/Autowiring/
+        waited/FileSystems/
+        waited/Skills/
+
+jeandev@jeandev-Lenovo-G580:/var/www/janklod-project$ git add .
+jeandev@jeandev-Lenovo-G580:/var/www/janklod-project$ git commit -m "Dependency Injection start"
+[di_container e83af4c] Dependency Injection start
+ 17 files changed, 1297 insertions(+), 8 deletions(-)
+ create mode 100644 src/Foundation/Application.php
+ create mode 100644 waited/Autowiring/Container.php
+ create mode 100644 waited/Autowiring/Container.txt
+ create mode 100644 waited/Components/FileSystem/File.php
+ create mode 100644 waited/Contracts/FileSystem/FileInterface.php
+ create mode 100644 waited/Contracts/FileSystem/FileSystemInterface.php
+ create mode 100644 waited/FileSystems/File.php
+ create mode 100644 waited/Skills/autocalling/.idea/autocalling.iml
+ create mode 100644 waited/Skills/autocalling/.idea/misc.xml
+ create mode 100644 waited/Skills/autocalling/.idea/modules.xml
+ create mode 100644 waited/Skills/autocalling/.idea/workspace.xml
+ create mode 100644 waited/Skills/autocalling/index.php
+ create mode 100755 waited/Skills/html/index.html
+jeandev@jeandev-Lenovo-G580:/var/www/janklod-project$ git push
+fatal: Текущая ветка di_container не имеет вышестоящей ветки.
+Чтобы отправить текущую ветку и установить внешнюю ветку как вышестоящую для этой ветки, используйте
+
+    git push --set-upstream origin di_container
+
+jeandev@jeandev-Lenovo-G580:/var/www/janklod-project$ git pull origin develop
+fatal: Couldn't find remote ref develop
+jeandev@jeandev-Lenovo-G580:/var/www/janklod-project$ git pull origin master
+Из https://github.com/jeandev84/janklod-project
+ * branch            master     -> FETCH_HEAD
+Уже обновлено.
+jeandev@jeandev-Lenovo-G580:/var/www/janklod-project$ git merge master
+Уже обновлено.
+jeandev@jeandev-Lenovo-G580:/var/www/janklod-project$ git stash
+Рабочий каталог и состояние индекса сохранены WIP on di_container: e83af4c Dependency Injection start
+jeandev@jeandev-Lenovo-G580:/var/www/janklod-project$ git checkout master
+Переключено на ветку «master»
+Ваша ветка обновлена в соответствии с «origin/master».
+jeandev@jeandev-Lenovo-G580:/var/www/janklod-project$ git pull
+Уже обновлено.
+jeandev@jeandev-Lenovo-G580:/var/www/janklod-project$ git stash apply
+На ветке container
+Изменения, которые будут включены в коммит:
+  (используйте «git reset HEAD <файл>…», чтобы убрать из индекса)
+
+        новый файл:    waited/Container/ContainerInterface.php
+        новый файл:    waited/Container/ContainerOld.php
+
+Изменения, которые не в индексе для коммита:
+  (используйте «git add/rm <файл>…», чтобы добавить или удалить файл из индекса)
+  (используйте «git checkout -- <файл>…», чтобы отменить изменения
+   в рабочем каталоге)
+
+        изменено:      src/Components/DependencyInjection/Container.php
+        удалено:       src/Contracts/Container/ContainerInterface.php
+
+jeandev@jeandev-Lenovo-G580:/var/www/janklod-project$ git add .
+jeandev@jeandev-Lenovo-G580:/var/www/janklod-project$ git commit -m "Dependency Injection Container start"
+[container d945e61] Dependency Injection Container start
+ 3 files changed, 353 insertions(+), 248 deletions(-)
+ rewrite src/Components/DependencyInjection/Container.php (80%)
+ rename {src/Contracts => waited}/Container/ContainerInterface.php (100%)
+ create mode 100644 waited/Container/ContainerOld.php
+
+
+jeandev@jeandev-Lenovo-G580:/var/www/janklod-project$ git push
+fatal: Текущая ветка container не имеет вышестоящей ветки.
+Чтобы отправить текущую ветку и установить внешнюю ветку как вышестоящую для этой ветки, используйте
+
+    git push --set-upstream origin container
+
+jeandev@jeandev-Lenovo-G580:/var/www/janklod-project$ git push --set-upstream origin container
+Username for 'https://github.com': jeandev84
+Password for 'https://jeandev84@github.com':
+Перечисление объектов: 56, готово.
+Подсчет объектов: 100% (56/56), готово.
+При сжатии изменений используется до 4 потоков
+Сжатие объектов: 100% (33/33), готово.
+Запись объектов: 100% (46/46), 13.56 KiB | 1.23 MiB/s, готово.
+Всего 46 (изменения 5), повторно использовано 0 (изменения 0)
+remote: Resolving deltas: 100% (5/5), done.
+remote:
+remote: Create a pull request for 'container' on GitHub by visiting:
+remote:      https://github.com/jeandev84/janklod-project/pull/new/container
+remote:
+To https://github.com/jeandev84/janklod-project.git
+ * [new branch]      container -> container
+Ветка «container» отслеживает внешнюю ветку «container» из «origin».
+jeandev@jeandev-Lenovo-G580:/var/www/janklod-project$ git pull master
+fatal: 'master' does not appear to be a git repository
+fatal: Не удалось прочитать из внешнего репозитория.
+
+Удостоверьтесь, что у вас есть необходимые права доступа
+и репозиторий существует.
+jeandev@jeandev-Lenovo-G580:/var/www/janklod-project$ git merge container
+Обновление 1773bc5..d945e61
+Fast-forward
+ .gitignore                                          |   3 +-
+ public/index.php                                    |  29 +++++++-
+ src/Components/DependencyInjection/Container.php    |  98 +++++++++++++++++++++++++--
+ src/Contracts/Container/ContainerInterface.php      |  12 ----
+ src/Foundation/Application.php                      |  33 +++++++++
+ waited/Autowiring/Container.php                     |  98 +++++++++++++++++++++++++++
+ waited/Autowiring/Container.txt                     | 114 +++++++++++++++++++++++++++++++
+ waited/Components/FileSystem/File.php               | 117 ++++++++++++++++++++++++++++++++
+ waited/Container/ContainerInterface.php             |  50 ++++++++++++++
+ waited/Container/ContainerOld.php                   | 235 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ waited/Contracts/FileSystem/FileInterface.php       |  12 ++++
+ waited/Contracts/FileSystem/FileSystemInterface.php |  12 ++++
+ waited/FileSystems/File.php                         |  60 +++++++++++++++++
+ waited/Skills/autocalling/.idea/autocalling.iml     |   8 +++
+ waited/Skills/autocalling/.idea/misc.xml            |   6 ++
+ waited/Skills/autocalling/.idea/modules.xml         |   8 +++
+ waited/Skills/autocalling/.idea/workspace.xml       |  63 +++++++++++++++++
+ waited/Skills/autocalling/index.php                 | 103 ++++++++++++++++++++++++++++
+ waited/Skills/html/index.html                       | 375 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ 19 files changed, 1415 insertions(+), 21 deletions(-)
+ delete mode 100644 src/Contracts/Container/ContainerInterface.php
+ create mode 100644 src/Foundation/Application.php
+ create mode 100644 waited/Autowiring/Container.php
+ create mode 100644 waited/Autowiring/Container.txt
+ create mode 100644 waited/Components/FileSystem/File.php
+ create mode 100644 waited/Container/ContainerInterface.php
+ create mode 100644 waited/Container/ContainerOld.php
+ create mode 100644 waited/Contracts/FileSystem/FileInterface.php
+ create mode 100644 waited/Contracts/FileSystem/FileSystemInterface.php
+ create mode 100644 waited/FileSystems/File.php
+ create mode 100644 waited/Skills/autocalling/.idea/autocalling.iml
+ create mode 100644 waited/Skills/autocalling/.idea/misc.xml
+ create mode 100644 waited/Skills/autocalling/.idea/modules.xml
+ create mode 100644 waited/Skills/autocalling/.idea/workspace.xml
+ create mode 100644 waited/Skills/autocalling/index.php
+ create mode 100755 waited/Skills/html/index.html
+
+jeandev@jeandev-Lenovo-G580:/var/www/janklod-project$ git push
+Username for 'https://github.com': jeandev84
+Password for 'https://jeandev84@github.com':
+Всего 0 (изменения 0), повторно использовано 0 (изменения 0)
+To https://github.com/jeandev84/janklod-project.git
+   1773bc5..d945e61  master -> master
+
+jeandev@jeandev-Lenovo-G580:/var/www/janklod-project$

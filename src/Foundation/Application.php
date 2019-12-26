@@ -28,6 +28,6 @@ class Application extends Container
 
      public function run()
      {
-         die($this->basePath);
+         die('Base Path of Application : ' . $this->basePath);
      }
 }
